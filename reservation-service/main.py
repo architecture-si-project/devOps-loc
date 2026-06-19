@@ -1,11 +1,6 @@
-from flask import Flask
+from reservation_app import create_app
 
-app = Flask(__name__)
-
-
-@app.route("/health", methods=["GET"])
-def health():
-    return {"status": "ok"}
+app = create_app()
 
 
 if __name__ == "__main__":
