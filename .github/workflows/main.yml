@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r user-service/requirements.txt
+          pip install --only-binary :all: -r user-service/requirements.txt
 
       - name: Run tests
         run: |
@@ -39,7 +39,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r reservation-service/requirements.txt
+          pip install --only-binary :all: -r reservation-service/requirements.txt
 
       - name: Run tests
         run: |
@@ -57,7 +57,7 @@ jobs:
           fetch-depth: 0
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarqube-scan-action@2f77a1ec69fb1d595b06f35ab27e97605bdef703 # v5.3.2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
