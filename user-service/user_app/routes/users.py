@@ -3,6 +3,8 @@ from flask import Blueprint, request, jsonify
 from ..decorators import token_required, admin_required
 from ..services.user_service import get_all_users, get_user_by_id, update_user, delete_user, update_user_role
 
+USER_NOT_FOUND = "User not found"
+
 users_bp = Blueprint("users", __name__, url_prefix="/users")
 
 
@@ -19,7 +21,7 @@ def get_user(current_user, user_id):
     user = get_user_by_id(user_id)
 
     if not user:
-        return jsonify({"error": "User not found"}), 404
+        return jsonify({"error": USER_NOT_FOUND}), 404
 
     return jsonify(user)
 
@@ -41,7 +43,7 @@ def edit_user(current_user, user_id):
     user = update_user(user_id, name, email)
 
     if not user:
-        return jsonify({"error": "User not found"}), 404
+        return jsonify({"error": USER_NOT_FOUND}), 404
 
     return jsonify(user)
 
@@ -52,7 +54,7 @@ def remove_user(current_user, user_id):
     deleted = delete_user(user_id)
 
     if not deleted:
-        return jsonify({"error": "User not found"}), 404
+        return jsonify({"error": USER_NOT_FOUND}), 404
 
     return jsonify({"message": "User deleted"}), 200
 
@@ -69,6 +71,6 @@ def change_role(current_user, user_id):
     user = update_user_role(user_id, role)
 
     if not user:
-        return jsonify({"error": "User not found"}), 404
+        return jsonify({"error": USER_NOT_FOUND}), 404
 
     return jsonify(user)
