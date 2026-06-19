@@ -55,4 +55,84 @@ def test_authenticate_user_returns_token_for_valid_credentials(monkeypatch):
     assert result == "fake-jwt-token"
 
 
+def test_authenticate_user_returns_none_when_user_not_found(monkeypatch):
+    monkeypatch.setattr(auth_service, "get_user_by_email", lambda email: None)
+
+    result = auth_service.authenticate_user("unknown@example.com", "secret")
+
+    assert result is None
+
+
+def test_hash_password_returns_string():
+    result = auth_service.hash_password("mypassword")
+
+    assert isinstance(result, str)
+    assert result != "mypassword"
+
+
+def test_check_password_valid():
+    hashed = auth_service.hash_password("mypassword")
+
+    assert auth_service.check_password("mypassword", hashed) is True
+
+
+def test_check_password_invalid():
+    hashed = auth_service.hash_password("mypassword")
+
+    assert auth_service.check_password("wrongpassword", hashed) is False
+
+
+class FakeCursor:
+    def __init__(self, result=None):
+        self._result = result
+
+    def execute(self, *args):
+        pass
+
+    def fetchone(self):
+        return self._result
+
+    def close(self):
+        pass
+
+
+class FakeConnection:
+    def __init__(self, cursor):
+        self._cursor = cursor
+
+    def cursor(self):
+        return self._cursor
+
+    def commit(self):
+        pass
+
+    def close(self):
+        pass
+
+
+def test_get_user_by_email_found(monkeypatch):
+    row = (1, "John", "john@test.com", "hashed", "user")
+    monkeypatch.setattr(auth_service, "get_connection", lambda: FakeConnection(FakeCursor(row)))
+
+    result = auth_service.get_user_by_email("john@test.com")
+
+    assert result == row
+
+
+def test_get_user_by_email_not_found(monkeypatch):
+    monkeypatch.setattr(auth_service, "get_connection", lambda: FakeConnection(FakeCursor(None)))
+
+    result = auth_service.get_user_by_email("unknown@test.com")
+
+    assert result is None
+
+
+def test_create_user(monkeypatch):
+    monkeypatch.setattr(auth_service, "get_connection", lambda: FakeConnection(FakeCursor((1, "John", "john@test.com"))))
+
+    result = auth_service.create_user("John", "john@test.com", "hashed")
+
+    assert result == {"id": 1, "name": "John", "email": "john@test.com"}
+
+
 
