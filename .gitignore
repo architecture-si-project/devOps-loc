@@ -9,6 +9,16 @@
 .idea/**/dictionaries
 .idea/**/shelf
 
+.idea/.gitignore
+.idea/devOps-loc.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/inspectionProfiles/**
+.idea/vcs.xml
+.idea/sqldialects.xml
+.idea/data_source_mapping.xml
+.idea/dataSources.xml
+
 # AWS User-specific
 .idea/**/aws.xml
 
@@ -23,13 +33,6 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
-.idea/.gitignore
-.idea/devOps-loc.iml
-.idea/misc.xml
-.idea/modules.xml
-.idea/inspectionProfiles/**
-.idea/vcs.xml
-.idea/sqldialects.xml
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
