@@ -5,7 +5,7 @@ import pytest
 
 from user_app import create_app
 
-SECRET = "test-secret"
+SECRET = "k7Xp9Qm2wL5nR8vT0jB3cF6hA4sD1eG"
 
 
 @pytest.fixture
