@@ -4,8 +4,6 @@ from functools import wraps
 import jwt
 from flask import request, jsonify
 
-SECRET_KEY = os.getenv("SECRET_KEY")
-
 
 def token_required(f):
     @wraps(f)
@@ -20,7 +18,7 @@ def token_required(f):
             return jsonify({"error": "Token is missing"}), 401
 
         try:
-            data = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+            data = jwt.decode(token, os.getenv("SECRET_KEY"), algorithms=["HS256"])
             current_user = {"user_id": data["user_id"], "role": data["role"]}
         except jwt.ExpiredSignatureError:
             return jsonify({"error": "Token has expired"}), 401
@@ -45,7 +43,7 @@ def admin_required(f):
             return jsonify({"error": "Token is missing"}), 401
 
         try:
-            data = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+            data = jwt.decode(token, os.getenv("SECRET_KEY"), algorithms=["HS256"])
             current_user = {"user_id": data["user_id"], "role": data["role"]}
         except jwt.ExpiredSignatureError:
             return jsonify({"error": "Token has expired"}), 401
