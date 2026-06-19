@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install -r user-service/requirements.txt
 
       - name: Run tests
         run: |
@@ -39,7 +39,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install -r reservation-service/requirements.txt
 
       - name: Run tests
         run: |
